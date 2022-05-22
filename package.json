@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Ku39/Telegram_bot/issues"
   },
-  "homepage": "https://github.com/Ku39/Telegram_bot#readme"
+  "homepage": "https://github.com/Ku39/Telegram_bot#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "fs": "^0.0.1-security",
+    "telegraf": "^4.8.2"
+  }
 }
