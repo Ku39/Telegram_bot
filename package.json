@@ -1,0 +1,19 @@
+{
+  "name": "telegram_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ku39/Telegram_bot.git"
+  },
+  "author": "Ku39",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ku39/Telegram_bot/issues"
+  },
+  "homepage": "https://github.com/Ku39/Telegram_bot#readme"
+}
