@@ -6,15 +6,36 @@ const axios = require('axios');
 const fs = require("fs").promises;
 const mongoose = require("mongoose");
 const { appendFile } = require('fs');
+const Schema = mongoose.Schema;
 
 const CONNECTION_URL = 'mongodb+srv://ku39:W810i104.@cluster0.k3pka.mongodb.net/?retryWrites=true&w=majority';
-const PORT = process.env.PORT || 3000;
+mongoose.connect(CONNECTION_URL, { useUnifiedTopology: true, useNewUrlParser: true });
 
-const connect = mongoose.connect(CONNECTION_URL);
-connect.then(()=>console.log("connection"));
-connect.catch((error)=>console.log(eroor));
+const UserSchema = new Schema({
+    name:"String",
+    age:"Number"
+})
+let user = mongoose.model("User",UserSchema);
 
-console.log()
+let a = {
+    name:"Gasdgor",age:21
+}
+run(a)
+
+async function run(obj){
+    // const User = new user(obj);
+    // let element = await User.save();
+    const User = await user.find({name:'Gasdgor'})
+    console.log(User)
+}
+
+
+index()
+async function index(){
+    
+}
+
+
 // connection to the bot
 const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
 const bot = new Telegraf(token);
