@@ -23,9 +23,14 @@ let a = {
 run(a)
 
 async function run(obj){
+    // Запись
     // const User = new user(obj);
     // let element = await User.save();
-    const User = await user.find({name:'Gasdgor'})
+
+    // Поиск
+    // const User = await user.find({name:'Gasdgor'})
+
+    
     console.log(User)
 }
 
