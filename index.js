@@ -29,9 +29,17 @@ async function run(obj){
 
     // Поиск
     // const User = await user.find({name:'Gasdgor'})
+    // const User = await user.find()
 
-    
-    console.log(User)
+    // Удаление
+    // User.forEach(async (item)=>{
+    //     let result = await user.deleteOne(item)
+    //     console.log(result)
+    // })
+    // console.log(User)
+
+    // Обновление 
+    // db.users.replaceOne({name: "Bob"}, {name: "Bob", age: 25})
 }
 
 
@@ -42,29 +50,29 @@ async function index(){
 
 
 // connection to the bot
-const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
-const bot = new Telegraf(token);
+// const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
+// const bot = new Telegraf(token);
 
-bot.start((ctx)=> main(ctx));
-bot.launch();
+// bot.start((ctx)=> main(ctx));
+// bot.launch();
 
-async function main (arg){
-    let db = await fs.readFile('DataBase.json', 'utf8');
-    try {
-        db = JSON.parse(db);
-    }catch(err){
+// async function main (arg){
+//     let db = await fs.readFile('DataBase.json', 'utf8');
+//     try {
+//         db = JSON.parse(db);
+//     }catch(err){
         
-    }
-    if(!db){
+//     }
+//     if(!db){
 
-    }
-    console.log(arg.message.from.id, db)
-    arg.reply("hi")
-}
+//     }
+//     console.log(arg.message.from.id, db)
+//     arg.reply("hi")
+// }
 
-class NewUser {
-    constructor() { 
+// class NewUser {
+//     constructor() { 
 
-    }
+//     }
   
-}
+// }
