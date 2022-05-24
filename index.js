@@ -9,6 +9,8 @@ const { appendFile } = require('fs');
 const Schema = mongoose.Schema;
 
 const CONNECTION_URL = 'mongodb+srv://ku39:W810i104.@cluster0.k3pka.mongodb.net/?retryWrites=true&w=majority';
+const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
+
 mongoose.connect(CONNECTION_URL, { useUnifiedTopology: true, useNewUrlParser: true });
 
 const UserSchema = new Schema({
@@ -45,7 +47,7 @@ async function run(obj){
 
 index()
 async function index(){
-    
+    console.log("UPP")
 }
 
 
