@@ -3,15 +3,16 @@
 // used libraries
 const { Telegraf, session, Scenes:{BaseScene, Stage}, Markup } = require('telegraf');
 const axios = require('axios');
-const fs = require("fs").promises;
+const fs = require("fs").promises
 const mongoose = require("mongoose");
 const { appendFile } = require('fs');
 const Schema = mongoose.Schema;
+let confing = require("./config");
 
-const CONNECTION_URL = 'mongodb+srv://ku39:W810i104.@cluster0.k3pka.mongodb.net/?retryWrites=true&w=majority';
-const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
+// const CONNECTION_URL = 'mongodb+srv://ku39:W810i104.@cluster0.k3pka.mongodb.net/?retryWrites=true&w=majority';
+// const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
 
-mongoose.connect(CONNECTION_URL, { useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect(confing.url, { useUnifiedTopology: true, useNewUrlParser: true });
 
 const UserSchema = new Schema({
     name:"String",
