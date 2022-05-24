@@ -9,6 +9,7 @@ const Schema = mongoose.Schema;
 // connect modules
 const config = require("./config");
 const NewUser = require("./UserShema");
+const stage = require("./stage")
 
 
 // connect DB
@@ -17,11 +18,11 @@ mongoose.connect(config.url, { useUnifiedTopology: true, useNewUrlParser: true }
 
 // connection to the bot
 const bot = new Telegraf(config.token);
-
-bot.start(async (ctx)=> {
+bot.use(session())
+bot.use(stage())
+bot.start(async ctx => ctx.scene.enter('firstScenes') )/* 
     // console.log(ctx.update.message.from);
     const search = await NewUser.find({id:ctx.update.message.from.id});
-    console.log(search)
     if(search.length == 0){
         const obj = {
             id:`${ctx.update.message.from.id}`,
@@ -33,7 +34,11 @@ bot.start(async (ctx)=> {
         const run = new NewUser(obj);
         const save = run.save();
     }
-});
+    
+} );*/
+
+// bot.use(session())
+// bot.use(stage())
 bot.launch();
 
 
