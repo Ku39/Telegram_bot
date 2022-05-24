@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const { appendFile } = require('fs');
 const Schema = mongoose.Schema;
 const config = require("./config");
-const user = require("./UserShema")
+const NewUser = require("./UserShema")
 
 mongoose.connect(config.url, { useUnifiedTopology: true, useNewUrlParser: true });
 
@@ -35,11 +35,6 @@ async function run(obj){
     // db.users.replaceOne({name: "Bob"}, {name: "Bob", age: 25})
 }
 
-
-index()
-async function index(){
-    console.log("UPP")
-}
 
 
 // connection to the bot
