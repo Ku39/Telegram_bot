@@ -1,4 +1,4 @@
-// connect libraries
+// used libraries
 const { Telegraf, session, Scenes:{BaseScene, Stage}, Markup } = require('telegraf');
 const axios = require('axios');
 const fs = require("fs").promises
@@ -19,6 +19,28 @@ mongoose.connect(config.url, { useUnifiedTopology: true, useNewUrlParser: true }
 const bot = new Telegraf(config.token);
 
 bot.start((ctx)=> {
-    console.log(ctx.update)
+    
 });
 bot.launch();
+
+
+// Запись
+// const User = new user(obj);
+// let element = await User.save();
+
+// Поиск
+// const User = await user.find({name:'Gasdgor'})
+// const User = await user.find()
+
+// Удаление
+// User.forEach(async (item)=>{
+//     let result = await user.deleteOne(item)
+//     console.log(result)
+// })
+// console.log(User)
+
+// Обновление 
+// db.users.replaceOne({name: "Bob"}, {name: "Bob", age: 25})
+
+
+
