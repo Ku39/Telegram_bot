@@ -18,8 +18,21 @@ mongoose.connect(config.url, { useUnifiedTopology: true, useNewUrlParser: true }
 // connection to the bot
 const bot = new Telegraf(config.token);
 
-bot.start((ctx)=> {
-    
+bot.start(async (ctx)=> {
+    // console.log(ctx.update.message.from);
+    const search = await NewUser.find({id:ctx.update.message.from.id});
+    console.log(search)
+    if(search.length == 0){
+        const obj = {
+            id:`${ctx.update.message.from.id}`,
+            first_name:ctx.update.message.from.first_name,
+            last_name:ctx.update.message.from.last_name,
+            username:ctx.update.message.from.username,
+            notes:{}
+        }
+        const run = new NewUser(obj);
+        const save = run.save();
+    }
 });
 bot.launch();
 
