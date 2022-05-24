@@ -7,24 +7,14 @@ const fs = require("fs").promises
 const mongoose = require("mongoose");
 const { appendFile } = require('fs');
 const Schema = mongoose.Schema;
-let confing = require("./config");
+const config = require("./config");
+const user = require("./UserShema")
 
-// const CONNECTION_URL = 'mongodb+srv://ku39:W810i104.@cluster0.k3pka.mongodb.net/?retryWrites=true&w=majority';
-// const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
-
-mongoose.connect(confing.url, { useUnifiedTopology: true, useNewUrlParser: true });
-
-const UserSchema = new Schema({
-    name:"String",
-    age:"Number"
-})
-let user = mongoose.model("User",UserSchema);
+mongoose.connect(config.url, { useUnifiedTopology: true, useNewUrlParser: true });
 
 let a = {
     name:"Gasdgor",age:21
 }
-run(a)
-
 async function run(obj){
     // Запись
     // const User = new user(obj);
@@ -53,11 +43,12 @@ async function index(){
 
 
 // connection to the bot
-// const token = "5399828319:AAHpmWloq3uH4u3qavvEbprbh2Tw4ufqrbg";
-// const bot = new Telegraf(token);
+const bot = new Telegraf(config.token);
 
-// bot.start((ctx)=> main(ctx));
-// bot.launch();
+bot.start((ctx)=> {
+    console.log(ctx.update)
+});
+bot.launch();
 
 // async function main (arg){
 //     let db = await fs.readFile('DataBase.json', 'utf8');
