@@ -24,15 +24,11 @@ module.exports.first = function(){
 
 module.exports.NewNote = function(){
     const NewNote = new BaseScene('NewNote');
-    NewNote.enter((ctx)=> ctx.reply("Добавить заметку", Markup.keyboard([
+    NewNote.enter((ctx)=> ctx.reply("Напишите заметку"/* , Markup.keyboard([
         ["Добавить","Назад"]
-    ]).resize()));
-    NewNote.on("message", async ctx => {
-        if(ctx.message.text == "Назад"){
-            ctx.scene.enter('firstScenes');
-        }else{
-            console.log(ctx.message.text)
-        }
+    ]).resize() */));
+    NewNote.on("message", async ctx =>{
+        
     })
     return NewNote
 }
