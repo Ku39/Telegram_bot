@@ -28,25 +28,20 @@ module.exports.NewNote = function(){
         ["Добавить","Назад"]
     ]).resize()));
 
-    NewNote.enter((ctx)=> ctx.reply("Напишите заметку", Markup.keyboard(["Добавить","Назад"]).resize()));
-
-    let msg = "";
-    
-    NewNote.hears("Добавить", ctx => {
-        ctx.reply(`Заметка "${msg}" Добавлена`);
-        ctx.scene.enter('firstScenes');
-    });
+    NewNote.enter((ctx)=> ctx.reply("Напишите заметку", Markup.keyboard(["Назад"]).resize()));
 
     NewNote.hears("Назад", ctx => {
         ctx.scene.enter('firstScenes');
     });
 
     NewNote.on("message", async ctx =>{
-        if(msg.length == 0){
-            msg = msg + ctx.message.text;
-        }else{
-            msg = msg + " " + ctx.message.text
-        }
+        ctx.reply(`Заметка "${ctx.message.text}" Добавлена`);
+        ctx.scene.enter('firstScenes');
+        // if(msg.length == 0){
+        //     msg = msg + ctx.message.text;
+        // }else{
+        //     msg = msg + " " + ctx.message.text
+        // }
         
     });
 
