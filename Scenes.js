@@ -67,9 +67,9 @@ module.exports.AllNotes = function(){
                 }
             })
         });
-        let repl = await ctx.reply("asdasd",Markup.keyboard(["Назад"]).resize());
+        let repl = await ctx.reply(".",Markup.keyboard(["Назад"]).resize());
         let msgid = repl.message_id;
-        ctx.deleteMessage(msgid, ctx.chat.id);
+        await ctx.deleteMessage(msgid, ctx.chat.id);
     })
     AllNotes.on("message",async ctx => {
         if(ctx.message.text == "Назад"){
@@ -77,7 +77,19 @@ module.exports.AllNotes = function(){
         }
     })
 
-    AllNotes.action("delete", ctx => {
+    AllNotes.action("delete", async ctx => {
+        let user = await NewUser.find({id:String(ctx.from.id)});
+        // console.log(user)
+        let arr = user[0].notes;
+        // console.log(arr)
+        arr.forEach((item, i) => {
+            console.log(item[0],ctx)
+            if (String(item[0])==String(ctx.update.callback_query.message.text)){
+                arr.splice(i,1)
+                delete arr[i];
+            }
+        })
+        console.log(arr)
         ctx.deleteMessage(ctx.message_id, ctx.chat.id);
     })
 
