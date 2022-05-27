@@ -51,13 +51,12 @@ module.exports.NewNote = function(){
 
 module.exports.AllNotes = function(){
     const AllNotes = new BaseScene('AllNotes');
-    AllNotes.on("message",async ctx => {
+    AllNotes.enter( async ctx => {
         const identifikator = `${ctx.update.message.from.id}`;
         let user = await NewUser.find({id:identifikator});
-        const chat = ctx.chat.id
         let Notes = user[0].notes
         Notes.forEach(async item => {
-            let result = await ctx.reply(item[0],{
+            await ctx.reply(item[0],{
                 reply_markup:{
                     inline_keyboard:[
                         [
@@ -66,21 +65,20 @@ module.exports.AllNotes = function(){
                         ]
                     ]
                 }
-            },"inline_message_id")
-            // let result = await AllNotes.telegram.sendMessage(chat, item[0], {
-            //     reply_markup:{
-            //         inline_keyboard:[
-            //             [
-            //                 {text:"Удалить", callback_data: "delete"}
-            //             ]
-            //         ]
-            //     }
-            // })
+            })
         });
+        let repl = await ctx.reply("asdasd",Markup.keyboard(["Назад"]).resize());
+        let msgid = repl.message_id;
+        ctx.deleteMessage(msgid, ctx.chat.id);
+    })
+    AllNotes.on("message",async ctx => {
+        if(ctx.message.text == "Назад"){
+            ctx.scene.enter('firstScenes')
+        }
     })
 
     AllNotes.action("delete", ctx => {
-        
+        ctx.deleteMessage(ctx.message_id, ctx.chat.id);
     })
 
     AllNotes.action("change", ctx => {
