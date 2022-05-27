@@ -29,7 +29,7 @@ bot.start(async ctx => {
             first_name:ctx.update.message.from.first_name,
             last_name:ctx.update.message.from.last_name,
             username:ctx.update.message.from.username,
-            notes:{}
+            notes:[]
         }
         const run = new NewUser(obj);
         const save = run.save();

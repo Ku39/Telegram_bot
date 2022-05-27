@@ -36,9 +36,19 @@ module.exports.NewNote = function(){
     });
 
     NewNote.on("message", async ctx =>{
+        const identifikator = `${ctx.update.message.from.id}`;
+        let user = await NewUser.find({id:identifikator});
+        let YNotes = user[0].notes;
+        const msg = await String(ctx.message.text);
+        YNotes.push(msg);
+        const upd = await NewUser.updateOne({id:identifikator},{notes:YNotes});
         ctx.reply(`Заметка "${ctx.message.text}" Добавлена`);
         ctx.scene.enter('firstScenes');
     });
 
     return NewNote
+}
+
+module.exports.NewNote = function(){
+    const NewNote = new BaseScene('NewNote');
 }
