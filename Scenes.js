@@ -57,21 +57,34 @@ module.exports.AllNotes = function(){
         const chat = ctx.chat.id
         let Notes = user[0].notes
         Notes.forEach(async item => {
-            let result = await AllNotes.telegram.sendMessage(chat, item[0], {
+            let result = await ctx.reply(item[0],{
                 reply_markup:{
                     inline_keyboard:[
                         [
-                            {text:"Удалить", callback_data: "delete"}
+                            {text:"Удалить", callback_data: "delete"},
+                            {text:"Изменить", callback_data: "change"}
                         ]
                     ]
                 }
-            })
-            console.log(result)
+            },"inline_message_id")
+            // let result = await AllNotes.telegram.sendMessage(chat, item[0], {
+            //     reply_markup:{
+            //         inline_keyboard:[
+            //             [
+            //                 {text:"Удалить", callback_data: "delete"}
+            //             ]
+            //         ]
+            //     }
+            // })
         });
     })
 
     AllNotes.action("delete", ctx => {
-        ctx.reply("Удаляем")
+        
+    })
+
+    AllNotes.action("change", ctx => {
+        console.log(ctx.update.callback_query)
     })
     return AllNotes
 }
