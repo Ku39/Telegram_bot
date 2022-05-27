@@ -15,9 +15,9 @@ module.exports.first = function(){
 
     firstScenes.on("message", async ctx=>{
         if(ctx.message.text == "Новая заметка"){
-            ctx.scene.enter('NewNote')
+            ctx.scene.enter('NewNote');
         }else if(ctx.message.text == "Все заметки"){
-            starts(ctx);
+            ctx.scene.enter('AllNotes')
         }else{
             ctx.reply('Извини, но у меня нет такой команды')
         }
@@ -49,6 +49,29 @@ module.exports.NewNote = function(){
     return NewNote
 }
 
-module.exports.NewNote = function(){
-    const NewNote = new BaseScene('NewNote');
+module.exports.AllNotes = function(){
+    const AllNotes = new BaseScene('AllNotes');
+    AllNotes.on("message",async ctx => {
+        const identifikator = `${ctx.update.message.from.id}`;
+        let user = await NewUser.find({id:identifikator});
+        const chat = ctx.chat.id
+        let Notes = user[0].notes
+        Notes.forEach(async item => {
+            let result = await AllNotes.telegram.sendMessage(chat, item[0], {
+                reply_markup:{
+                    inline_keyboard:[
+                        [
+                            {text:"Удалить", callback_data: "delete"}
+                        ]
+                    ]
+                }
+            })
+            console.log(result)
+        });
+    })
+
+    AllNotes.action("delete", ctx => {
+        ctx.reply("Удаляем")
+    })
+    return AllNotes
 }
