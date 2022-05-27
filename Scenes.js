@@ -9,9 +9,13 @@ const NewUser = require("./UserShema");
 module.exports.first = function(){
     const firstScenes = new BaseScene('firstScenes');
 
-    firstScenes.enter((ctx)=> ctx.reply("Выбери действие",Markup.keyboard([
-        ["Новая заметка","Все заметки"]
-    ]).resize()));
+    firstScenes.enter(async (ctx)=>{ 
+        const msg = await ctx.reply("Выбери действие",Markup.keyboard([
+            ["Новая заметка","Все заметки"]
+        ]).resize())
+        console.log(msg)
+        await ctx.deleteMessage(msg.message_id, ctx.chat.id);
+    });
 
     firstScenes.on("message", async ctx=>{
         if(ctx.message.text == "Новая заметка"){
@@ -55,25 +59,30 @@ module.exports.AllNotes = function(){
         const identifikator = `${ctx.update.message.from.id}`;
         let user = await NewUser.find({id:identifikator});
         let Notes = user[0].notes
-        Notes.forEach(async item => {
-            await ctx.reply(item[0],{
-                reply_markup:{
-                    inline_keyboard:[
-                        [
-                            {text:"Удалить", callback_data: "delete"},
-                            {text:"Изменить", callback_data: "change"}
+        if(Notes.length == 0){
+            ctx.reply("У вас нет ни одной заметки");
+            ctx.scene.enter('firstScenes');
+        }else{
+            Notes.forEach(async item => {
+                await ctx.reply(item[0],{
+                    reply_markup:{
+                        inline_keyboard:[
+                            [
+                                {text:"Удалить", callback_data: "delete"},
+                                // {text:"Изменить", callback_data: "change"}
+                            ]
                         ]
-                    ]
-                }
-            })
-        });
-        let repl = await ctx.reply(".",Markup.keyboard(["Назад"]).resize());
-        let msgid = repl.message_id;
-        await ctx.deleteMessage(msgid, ctx.chat.id);
+                    }
+                })
+            });
+            let repl = await ctx.reply(".",Markup.keyboard(["Назад"]).resize());
+            let msgid = repl.message_id;
+            await ctx.deleteMessage(msgid, ctx.chat.id);
+        }
     })
     AllNotes.on("message",async ctx => {
         if(ctx.message.text == "Назад"){
-            ctx.scene.enter('firstScenes')
+            ctx.scene.enter('firstScenes');
         }
     })
 
@@ -83,18 +92,36 @@ module.exports.AllNotes = function(){
         let arr = user[0].notes;
         // console.log(arr)
         arr.forEach((item, i) => {
-            console.log(item[0],ctx)
             if (String(item[0])==String(ctx.update.callback_query.message.text)){
                 arr.splice(i,1)
-                delete arr[i];
             }
-        })
-        console.log(arr)
-        ctx.deleteMessage(ctx.message_id, ctx.chat.id);
+        });
+        const upd = await NewUser.updateOne({id:String(ctx.from.id)},{notes:arr});
+        await ctx.deleteMessage(ctx.message_id, ctx.chat.id);
+        if(arr.length == 0){
+            ctx.reply("У Вас нет ни одной заметки")
+            ctx.scene.enter('firstScenes');
+
+        }
     })
 
-    AllNotes.action("change", ctx => {
-        console.log(ctx.update.callback_query)
-    })
+    // AllNotes.action("change", ctx => {
+    //     let user = await NewUser.find({id:String(ctx.from.id)});
+    //     // console.log(user)
+    //     let arr = user[0].notes;
+    //     // console.log(arr)
+    //     arr.forEach((item, i) => {
+    //         if (String(item[0])==String(ctx.update.callback_query.message.text)){
+    //             arr.splice(i,1)
+    //         }
+    //     });
+    //     const upd = await NewUser.updateOne({id:String(ctx.from.id)},{notes:arr});
+    //     await ctx.deleteMessage(ctx.message_id, ctx.chat.id);
+    //     if(arr.length == 0){
+    //         ctx.reply("У Вас нет ни одной заметки")
+    //         ctx.scene.enter('firstScenes');
+
+    //     }
+    // })
     return AllNotes
 }
